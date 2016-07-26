@@ -1,40 +1,18 @@
 #ifndef FREDBUTTONS_H
 #define FREDBUTTONS_H
 template<int length> class BitField{
-	//#define bitStuff //bitstuff is currently broken due to a compiler bug it seems
-	#ifndef bitStuff
-	bool bits[length];
-	public:
-	bool get(int index){
-		return bits[index];
-	}
-	void setTo(int index, bool value){
-		bits[index] = value;
-	}
-	
-	bool operator[](int index){
-		return get(index);
-	}
-	#else
-	uint8_t bytes[length/8];
+	uint8_t bytes[(length/8)+1];
 	public:
 	bool get(int index){
 		return bitRead(bytes[index/8], index%8);
 	}
 	void setTo(int index, bool value){
-		Serial.print("set ");
-		Serial.print(index);
-		Serial.print(" (index/8=");
-		Serial.print(index/8);
-		Serial.print(") to ");
-		Serial.println(value);
 		bitWrite(bytes[index/8],index%8,value);
 	}
 	
 	bool operator[](int index){
 		return get(index);
 	}
-	#endif
 };
 
 struct ButtonGroup{
